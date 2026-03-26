@@ -1,0 +1,297 @@
+.modal-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px 8px 0 0;
+  
+  .modal-title {
+    font-weight: 600;
+  }
+  
+  .btn-close {
+    filter: brightness(0) invert(1);
+  }
+}
+
+.modal-body {
+  padding: 2rem;
+  
+  .form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-control,
+  .form-select {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    padding: 0.625rem 0.875rem;
+    transition: all 0.2s ease;
+    
+    &:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    &:disabled {
+      background-color: #e9ecef;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    &.is-invalid {
+      border-color: #dc3545;
+      padding-right: calc(1.5em + 1.125rem);
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right calc(0.375em + 0.28125rem) center;
+      background-size: calc(0.75em + 0.5625rem) calc(0.75em + 0.5625rem);
+      
+      &:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+      }
+    }
+    
+    &.is-valid {
+      border-color: #198754;
+      padding-right: calc(1.5em + 1.125rem);
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right calc(0.375em + 0.28125rem) center;
+      background-size: calc(0.75em + 0.5625rem) calc(0.75em + 0.5625rem);
+      
+      &:focus {
+        border-color: #198754;
+        box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+      }
+    }
+  }
+  
+  .form-check-input {
+    cursor: pointer;
+    
+    &:checked {
+      background-color: #667eea;
+      border-color: #667eea;
+    }
+    
+    &.is-invalid {
+      border-color: #dc3545;
+      
+      &:checked {
+        background-color: #dc3545;
+        border-color: #dc3545;
+      }
+    }
+  }
+  
+  .invalid-feedback {
+    font-size: 0.875rem;
+    color: #dc3545;
+    margin-top: 0.25rem;
+    display: block;
+    animation: shake 0.3s ease-in-out;
+  }
+  
+  .form-text {
+    font-size: 0.75rem;
+    color: #6c757d;
+  }
+  
+  .btn-outline-secondary {
+    &:hover {
+      background-color: #6c757d;
+      color: white;
+    }
+  }
+  
+  .text-danger {
+    font-size: 0.875rem;
+  }
+  
+  .alert {
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+  }
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+  padding: 1rem 2rem;
+  
+  .btn {
+    padding: 0.625rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    
+    &.btn-success {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      border: none;
+      
+      &:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+      }
+      
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+    }
+    
+    &:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .modal-footer {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    .btn {
+      width: 100%;
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+img.rounded-circle {
+  object-fit: cover;
+  border: 2px solid #dee2e6;
+}
+
+/* ng-select custom styling */
+ng-select.is-invalid ::ng-deep .ng-select-container {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+ng-select.is-valid ::ng-deep .ng-select-container {
+  border-color: #198754 !important;
+  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25) !important;
+}
+
+ng-select[disabled] ::ng-deep .ng-select-container {
+  background-color: #e9ecef !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+}
+
+ng-select ::ng-deep .ng-select-container {
+  min-height: 38px;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  padding: 0 0.5rem;
+}
+
+ng-select ::ng-deep .ng-value-container {
+  padding: 0 0.5rem;
+}
+
+ng-select ::ng-deep .ng-input {
+  padding: 0 0.5rem;
+}
+
+ng-select ::ng-deep .ng-dropdown-panel .ng-option {
+  padding: 0.5rem;
+}
+
+ng-select ::ng-deep .ng-dropdown-panel .ng-option-selected {
+  background-color: #667eea;
+  color: white;
+}
+
+ng-select ::ng-deep .ng-dropdown-panel .ng-option-marked {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+/* Profile image preview styling */
+img.rounded-circle {
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+img.rounded-circle:hover {
+  transform: scale(1.05);
+}
+
+/* Remove button styling */
+.btn-outline-danger {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* File input focus */
+.form-control[readonly]:focus {
+  background-color: white;
+  cursor: default;
+}
+
+/* ngbDatepicker custom styling */
+ngb-datepicker ::ng-deep .ngb-dp-day {
+  cursor: pointer;
+}
+
+ngb-datepicker ::ng-deep .ngb-dp-day.focused {
+  background-color: #667eea;
+  color: white;
+}
+
+ngb-datepicker ::ng-deep .ngb-dp-day.selected {
+  background-color: #667eea;
+  color: white;
+  font-weight: 600;
+}
+
+ngb-datepicker ::ng-deep .ngb-dp-day.today {
+  background-color: #e9ecef;
+  font-weight: 600;
+}
+
+ngb-datepicker ::ng-deep .ngb-dp-day.disabled {
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* Input group with datepicker */
+.input-group .form-control[readonly] {
+  background-color: white;
+  cursor: pointer;
+}
+
+.input-group .btn-outline-secondary {
+  border-left: none;
+}
+
+.input-group .btn-outline-secondary:hover {
+  background-color: #667eea;
+  border-color: #667eea;
+  color: white;
+}

@@ -1,0 +1,624 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    <i class="bi {{ isEditMode ? 'bi-pencil-square' : 'bi-person-plus-fill' }} me-2"></i>
+    {{ isEditMode ? 'Edit User' : 'Add New User' }}
+  </h4>
+  <button type="button" class="btn-close" (click)="onCancel()" aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+  <div *ngIf="submitMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>{{ submitMessage }}
+    <button type="button" class="btn-close" (click)="clearMessages()" aria-label="Close"></button>
+  </div>
+
+  <div *ngIf="submitError" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ submitError }}
+    <button type="button" class="btn-close" (click)="clearMessages()" aria-label="Close"></button>
+  </div>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="firstName" class="form-label"
+          >First Name <span class="text-danger">*</span></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          formControlName="firstName"
+          placeholder="First Name"
+          [class.is-invalid]="isFieldInvalid('firstName')"
+          [class.is-valid]="
+            !isFieldInvalid('firstName') &&
+            (f['firstName'].dirty || f['firstName'].touched) &&
+            f['firstName'].valid
+          "
+        />
+        <div *ngIf="isFieldInvalid('firstName')" class="invalid-feedback d-block">
+          {{ getFieldError('firstName') }}
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          formControlName="lastName"
+          placeholder="Last Name"
+          [class.is-invalid]="isFieldInvalid('lastName')"
+          [class.is-valid]="
+            !isFieldInvalid('lastName') &&
+            (f['lastName'].dirty || f['lastName'].touched) &&
+            f['lastName'].valid
+          "
+        />
+        <div *ngIf="isFieldInvalid('lastName')" class="invalid-feedback d-block">
+          {{ getFieldError('lastName') }}
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="emailAddress" class="form-label"
+          >Email Address <span class="text-danger">*</span></label
+        >
+        <input
+          type="email"
+          class="form-control"
+          id="emailAddress"
+          formControlName="emailAddress"
+          placeholder="Email Address"
+          [class.is-invalid]="isFieldInvalid('emailAddress')"
+          [class.is-valid]="
+            !isFieldInvalid('emailAddress') &&
+            (f['emailAddress'].dirty || f['emailAddress'].touched) &&
+            f['emailAddress'].valid
+          "
+        />
+        <div *ngIf="isFieldInvalid('emailAddress')" class="invalid-feedback d-block">
+          {{ getFieldError('emailAddress') }}
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="mobileNumber" class="form-label"
+          >Mobile Number <span class="text-danger">*</span></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="mobileNumber"
+          formControlName="mobileNumber"
+          placeholder="Mobile Number"
+          maxlength="10"
+          [class.is-invalid]="isFieldInvalid('mobileNumber')"
+          [class.is-valid]="
+            !isFieldInvalid('mobileNumber') &&
+            (f['mobileNumber'].dirty || f['mobileNumber'].touched) &&
+            f['mobileNumber'].valid
+          "
+        />
+        <div *ngIf="isFieldInvalid('mobileNumber')" class="invalid-feedback d-block">
+          {{ getFieldError('mobileNumber') }}
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="panNumber" class="form-label"
+          >PAN Number <span class="text-danger">*</span></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="panNumber"
+          formControlName="panNumber"
+          placeholder="ABCDE1234F"
+          maxlength="10"
+          style="text-transform: uppercase"
+          [class.is-invalid]="isFieldInvalid('panNumber')"
+          [class.is-valid]="
+            !isFieldInvalid('panNumber') &&
+            (f['panNumber'].dirty || f['panNumber'].touched) &&
+            f['panNumber'].valid
+          "
+        />
+        <div *ngIf="isFieldInvalid('panNumber')" class="invalid-feedback d-block">
+          {{ getFieldError('panNumber') }}
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="passportNumber" class="form-label"
+          >Passport Number <span class="text-danger">*</span></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="passportNumber"
+          formControlName="passportNumber"
+          placeholder="Passport Number"
+          style="text-transform: uppercase"
+          [class.is-invalid]="isFieldInvalid('passportNumber')"
+          [class.is-valid]="
+            !isFieldInvalid('passportNumber') &&
+            (f['passportNumber'].dirty || f['passportNumber'].touched) &&
+            f['passportNumber'].valid
+          "
+        />
+        <div *ngIf="isFieldInvalid('passportNumber')" class="invalid-feedback d-block">
+          {{ getFieldError('passportNumber') }}
+        </div>
+      </div>
+
+      <!-- <div class="col-md-6 mb-3">
+        <label for="dateOfBirth" class="form-label"
+          >Date of Birth <span class="text-danger">*</span></label
+        >
+        <input
+          type="date"
+          class="form-control"
+          id="dateOfBirth"
+          formControlName="dateOfBirth"
+          [max]="today"
+          [class.is-invalid]="isFieldInvalid('dateOfBirth')"
+          [class.is-valid]="
+            !isFieldInvalid('dateOfBirth') &&
+            (f['dateOfBirth'].dirty || f['dateOfBirth'].touched) &&
+            f['dateOfBirth'].valid
+          "
+        />
+        <div *ngIf="isFieldInvalid('dateOfBirth')" class="invalid-feedback d-block">
+          {{ getFieldError('dateOfBirth') }}
+        </div>
+      </div> -->
+
+      <div class="col-md-6 mb-3">
+        <label for="dateOfBirth" class="form-label"
+          >Date of Birth <span class="text-danger">*</span></label
+        >
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="dateOfBirth"
+            [(ngModel)]="model.dateOfBirth"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="onDateOfBirthChange($event)"
+            ngbDatepicker="dBirth"
+            [maxDate]="todayNgb"
+            #dBirth="ngbDatepicker"
+            [class.is-invalid]="isFieldInvalid('dateOfBirth')"
+            [class.is-valid]="
+              !isFieldInvalid('dateOfBirth') &&
+              (f['dateOfBirth'].dirty || f['dateOfBirth'].touched) &&
+              f['dateOfBirth'].valid
+            "
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="dBirth.toggle()"
+            title="Open calendar"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-calendar-event-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"
+              />
+            </svg>
+          </button>
+        </div>
+        <div *ngIf="isFieldInvalid('dateOfBirth')" class="invalid-feedback d-block">
+          {{ getFieldError('dateOfBirth') }}
+        </div>
+      </div>
+      <!-- <div class="col-md-6 mb-3">
+        <label for="dateOfJoinee" class="form-label">Date of Joining</label>
+        <input
+          type="date"
+          class="form-control"
+          id="dateOfJoinee"
+          formControlName="dateOfJoinee"
+          [max]="today"
+          [class.is-invalid]="isFieldInvalid('dateOfJoinee')"
+          [class.is-valid]="
+            !isFieldInvalid('dateOfJoinee') &&
+            (f['dateOfJoinee'].dirty || f['dateOfJoinee'].touched) &&
+            f['dateOfJoinee'].valid
+          "
+        />
+        <div *ngIf="isFieldInvalid('dateOfJoinee')" class="invalid-feedback d-block">
+          {{ getFieldError('dateOfJoinee') }}
+        </div>
+      </div> -->
+
+      <!-- Date of Joining -->
+      <div class="col-md-6 mb-3">
+        <label for="dateOfJoinee" class="form-label">Date of Joining</label>
+
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="dateOfJoinee"
+            [(ngModel)]="model.dateOfJoinee"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="onDateOfJoineeChange($event)"
+            ngbDatepicker="dJoinee"
+            [maxDate]="todayNgb"
+            #dJoinee="ngbDatepicker"
+            [class.is-invalid]="isFieldInvalid('dateOfJoinee')"
+            [class.is-valid]="
+              !isFieldInvalid('dateOfJoinee') &&
+              (f['dateOfJoinee'].dirty || f['dateOfJoinee'].touched) &&
+              f['dateOfJoinee'].valid
+            "
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="dJoinee.toggle()"
+            title="Open calendar"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-calendar-event-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div *ngIf="isFieldInvalid('dateOfJoinee')" class="invalid-feedback d-block">
+          {{ getFieldError('dateOfJoinee') }}
+        </div>
+      </div>
+      <!-- <div class="col-md-6 mb-3">
+        <label for="countryId" class="form-label">Country <span class="text-danger">*</span></label>
+        <ng-select
+          id="countryId"
+          [items]="countries"
+          formControlName="countryId"
+          bindLabel="Name"
+          bindValue="Row_Id"
+          placeholder="Select Country"
+          [searchable]="true"
+          [clearable]="true"
+          [markFirst]="true"
+          (change)="onCountryChange()"
+          [class.is-invalid]="isFieldInvalid('countryId')"
+          [class.is-valid]="
+            !isFieldInvalid('countryId') &&
+            (f['countryId'].dirty || f['countryId'].touched) &&
+            f['countryId'].valid
+          "
+        >
+        </ng-select>
+        <div *ngIf="isFieldInvalid('countryId')" class="invalid-feedback d-block">
+          {{ getFieldError('countryId') }}
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="stateId" class="form-label">State <span class="text-danger">*</span></label>
+        <ng-select
+          id="stateId"
+          [items]="states"
+          formControlName="stateId"
+          bindLabel="Name"
+          bindValue="Row_Id"
+          placeholder="Select State"
+          [searchable]="true"
+          [clearable]="true"
+          [markFirst]="true"
+          [disabled]="!f['countryId'].value"
+          (change)="onStateChange()"
+          [class.is-invalid]="isFieldInvalid('stateId') || shouldShowStateError()"
+          [class.is-valid]="
+            !isFieldInvalid('stateId') &&
+            !shouldShowStateError() &&
+            (f['stateId'].dirty || f['stateId'].touched) &&
+            f['stateId'].valid
+          "
+        >
+        </ng-select>
+        <div *ngIf="shouldShowStateError()" class="invalid-feedback d-block">
+          {{ getStateErrorMessage() }}
+        </div>
+        <div
+          *ngIf="isFieldInvalid('stateId') && !shouldShowStateError()"
+          class="invalid-feedback d-block"
+        >
+          {{ getFieldError('stateId') }}
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="cityId" class="form-label">City <span class="text-danger">*</span></label>
+        <ng-select
+          id="cityId"
+          [items]="cities"
+          formControlName="cityId"
+          bindLabel="Name"
+          bindValue="Row_Id"
+          placeholder="Select City"
+          [searchable]="true"
+          [clearable]="true"
+          [markFirst]="true"
+          [disabled]="!f['stateId'].value"
+          [class.is-invalid]="isFieldInvalid('cityId') || shouldShowCityError()"
+          [class.is-valid]="
+            !isFieldInvalid('cityId') &&
+            !shouldShowCityError() &&
+            (f['cityId'].dirty || f['cityId'].touched) &&
+            f['cityId'].valid
+          "
+        >
+        </ng-select>
+        <div *ngIf="shouldShowCityError()" class="invalid-feedback d-block">
+          {{ getCityErrorMessage() }}
+        </div>
+        <div
+          *ngIf="isFieldInvalid('cityId') && !shouldShowCityError()"
+          class="invalid-feedback d-block"
+        >
+          {{ getFieldError('cityId') }}
+        </div>
+      </div> -->
+
+      <!-- Country -->
+      <div class="col-md-6 mb-3">
+        <label for="countryId" class="form-label">Country <span class="text-danger">*</span></label>
+        <ng-select
+          id="countryId"
+          [items]="countries"
+          formControlName="countryId"
+          bindLabel="Name"
+          bindValue="Row_Id"
+          placeholder="Select Country"
+          [searchable]="true"
+          [clearable]="true"
+          (change)="onCountryChange()"
+          [class.is-invalid]="isFieldInvalid('countryId')"
+          [class.is-valid]="
+            !isFieldInvalid('countryId') &&
+            (f['countryId'].dirty || f['countryId'].touched) &&
+            f['countryId'].valid
+          "
+        >
+        </ng-select>
+        <div *ngIf="isFieldInvalid('countryId')" class="invalid-feedback d-block">
+          {{ getFieldError('countryId') }}
+        </div>
+      </div>
+
+      <!-- State -->
+      <div class="col-md-6 mb-3">
+        <label for="stateId" class="form-label">State <span class="text-danger">*</span></label>
+        <ng-select
+          id="stateId"
+          [items]="states"
+          formControlName="stateId"
+          bindLabel="Name"
+          bindValue="Row_Id"
+          placeholder="Select State"
+          [searchable]="true"
+          [clearable]="true"
+          [disabled]="!f['countryId'].value"
+          (change)="onStateChange()"
+          [class.is-invalid]="isFieldInvalid('stateId') || shouldShowStateError()"
+          [class.is-valid]="
+            !isFieldInvalid('stateId') &&
+            !shouldShowStateError() &&
+            (f['stateId'].dirty || f['stateId'].touched) &&
+            f['stateId'].valid
+          "
+        >
+        </ng-select>
+        <div *ngIf="shouldShowStateError()" class="invalid-feedback d-block">
+          {{ getStateErrorMessage() }}
+        </div>
+        <div
+          *ngIf="isFieldInvalid('stateId') && !shouldShowStateError()"
+          class="invalid-feedback d-block"
+        >
+          {{ getFieldError('stateId') }}
+        </div>
+      </div>
+
+      <!-- City -->
+      <div class="col-md-6 mb-3">
+        <label for="cityId" class="form-label">City <span class="text-danger">*</span></label>
+        <ng-select
+          id="cityId"
+          [items]="cities"
+          formControlName="cityId"
+          bindLabel="Name"
+          bindValue="Row_Id"
+          placeholder="Select City"
+          [searchable]="true"
+          [clearable]="true"
+          [disabled]="!f['stateId'].value"
+          [class.is-invalid]="isFieldInvalid('cityId') || shouldShowCityError()"
+          [class.is-valid]="
+            !isFieldInvalid('cityId') &&
+            !shouldShowCityError() &&
+            (f['cityId'].dirty || f['cityId'].touched) &&
+            f['cityId'].valid
+          "
+        >
+        </ng-select>
+        <div *ngIf="shouldShowCityError()" class="invalid-feedback d-block">
+          {{ getCityErrorMessage() }}
+        </div>
+        <div
+          *ngIf="isFieldInvalid('cityId') && !shouldShowCityError()"
+          class="invalid-feedback d-block"
+        >
+          {{ getFieldError('cityId') }}
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="profileImage" class="form-label">Profile Picture</label>
+        <div
+          *ngIf="isEditMode && existingProfileImage && !selectedFile && !imagePreview"
+          class="mb-2"
+        >
+          <img
+            [src]="getProfileImageUrl(existingProfileImage)"
+            alt="Current Profile"
+            class="rounded-circle border border-2"
+            width="80"
+            height="80"
+            style="object-fit: cover"
+            (error)="onImageError($event)"
+          />
+          <p class="text-muted small mt-1">
+            <i class="bi bi-check-circle text-success me-1"></i>Current image
+          </p>
+        </div>
+
+        <!-- Show preview of newly selected file -->
+        <div *ngIf="imagePreview" class="mb-2">
+          <img
+            [src]="imagePreview"
+            alt="Preview"
+            class="rounded-circle border border-2"
+            width="80"
+            height="80"
+            style="object-fit: cover"
+          />
+          <p class="text-muted small mt-1">
+            <i class="bi bi-clock-history me-1"></i>New image (not saved yet)
+          </p>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-danger mt-1"
+            (click)="removeSelectedFile()"
+          >
+            <i class="bi bi-trash me-1"></i>Remove
+          </button>
+        </div>
+
+        <!-- File input group -->
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            id="profileImage"
+            formControlName="profileImage"
+            placeholder="No file chosen"
+            readonly
+            [class.is-invalid]="!!fileError"
+          />
+          <label class="btn btn-outline-secondary mb-0" for="fileInput">
+            <i class="bi bi-upload me-1"></i> Upload
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            class="d-none"
+            (change)="onFileSelected($event)"
+            accept="image/jpeg, image/png"
+          />
+        </div>
+
+        <small class="form-text text-muted">
+          <i class="bi bi-info-circle me-1"></i>Accepted: JPG, PNG (Max 200 KB)
+        </small>
+
+        <!-- File validation error -->
+        <div *ngIf="fileError" class="invalid-feedback d-block">
+          <i class="bi bi-exclamation-triangle me-1"></i>{{ fileError }}
+        </div>
+
+        <!-- General submit error related to image -->
+        <div *ngIf="submitError && submitError.includes('image')" class="invalid-feedback d-block">
+          {{ submitError }}
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Gender <span class="text-danger">*</span></label>
+        <div class="d-flex gap-4">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="genderMale"
+              formControlName="gender"
+              value="1"
+              [class.is-invalid]="isFieldInvalid('gender')"
+            />
+            <label class="form-check-label" for="genderMale">Male</label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="genderFemale"
+              formControlName="gender"
+              value="2"
+              [class.is-invalid]="isFieldInvalid('gender')"
+            />
+            <label class="form-check-label" for="genderFemale">Female</label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="genderOther"
+              formControlName="gender"
+              value="3"
+              [class.is-invalid]="isFieldInvalid('gender')"
+            />
+            <label class="form-check-label" for="genderOther">Other</label>
+          </div>
+        </div>
+        <div *ngIf="isFieldInvalid('gender')" class="invalid-feedback d-block">
+          {{ getFieldError('gender') }}
+        </div>
+      </div>
+
+      <div class="col-md-12 mb-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="isActive"
+            formControlName="isActive"
+          />
+          <label class="form-check-label" for="isActive"><strong>Active</strong></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer justify-content-end mt-3">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="bi bi-x-circle me-1"></i> Cancel
+      </button>
+      <button type="submit" class="btn btn-success" [disabled]="loading">
+        <i class="bi bi-check-circle me-1"></i>
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+        {{ loading ? 'Saving...' : 'Save' }}
+      </button>
+    </div>
+  </form>
+</div>
