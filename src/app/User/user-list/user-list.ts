@@ -4,31 +4,6 @@ import { UserService } from '../../services/user';
 import { AddEditUser } from '../add-edit-user/add-edit-user';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-// export interface User {
-//   id?: number;
-//   firstName?: string;
-//   lastName?: string;
-//   email: string;
-//   mobileNumber?: string;
-//   panNumber: string;
-//   passportNumber: string;
-//   dateOfBirth?: string;
-//   dateOfJoining?: string;
-//   country: string;
-//   state: string;
-//   city: string;
-//   profilePicture: string;
-//   gender: string;
-//   isActive: boolean;
-// }
-
-// export interface ApiResponse {
-//   users: User[];
-//   total: number;
-//   page: number;
-//   pageSize: number;
-// }
-
 export interface User {
   Row_Id?: number;
   EmployeeCode?: string;
@@ -42,7 +17,7 @@ export interface User {
   PanNumber: string;
   PassportNumber: string;
   ProfileImage?: string;
-  Gender?: number; // 1: Male, 2: Female, 3: Other
+  Gender?: number;
   IsActive: boolean;
   DateOfBirth?: string;
   DateOfJoinee?: string;
@@ -50,7 +25,6 @@ export interface User {
   UpdatedDate?: string;
 }
 
-// Match backend ApiResponse<T> with Pagination
 export interface ApiResponse<T> {
   Success: boolean;
   message: string;
@@ -64,7 +38,6 @@ export interface ApiResponse<T> {
   };
 }
 
-// Grid request for backend
 export interface GridRequest {
   pageNumber: number;
   pageSize: number;
@@ -85,7 +58,6 @@ export class UserList {
   error: string | null = null;
   successMessage: string | null = null;
 
-  // Pagination
   page = 1;
   pageSize = 10;
   collectionSize = 0;
@@ -188,8 +160,6 @@ export class UserList {
       backdrop: 'static',
       keyboard: false,
     });
-
-    // Set component properties for add mode
     modalRef.componentInstance.isEditMode = false;
     modalRef.componentInstance.userId = null;
 
@@ -213,7 +183,6 @@ export class UserList {
       keyboard: false,
     });
 
-    // Set component properties for edit mode
     modalRef.componentInstance.isEditMode = true;
     modalRef.componentInstance.userId = user.Row_Id || 0;
 
@@ -229,25 +198,19 @@ export class UserList {
     );
   }
 
-  // onPageChange(page: number): void {
-  //   this.page = page;
-  //   this.loadUsers();
-  // }
-
   onPageChange(page: number): void {
     this.page = page;
     this.loadUsers();
-    // Scroll to top of table
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   onPageSizeChange(): void {
-    this.page = 1; // Reset to first page when changing page size
+    this.page = 1; 
     this.loadUsers();
   }
 
   onSearch(): void {
-    this.page = 1; // Reset to first page on search
+    this.page = 1; 
     this.loadUsers();
   }
 
@@ -256,7 +219,6 @@ export class UserList {
     return (this.page - 1) * this.pageSize + 1;
   }
 
-  // ✅ Calculate end index
   getEndIndex(): number {
     if (this.collectionSize === 0) return 0;
     const end = this.page * this.pageSize;
@@ -265,7 +227,6 @@ export class UserList {
 
   onSort(field: string): void {
     if (this.sortBy === field) {
-      // Toggle sort order
       this.sortOrder = this.sortOrder === 'ASC' ? 'DESC' : 'ASC';
     } else {
       this.sortBy = field;
@@ -309,8 +270,6 @@ export class UserList {
   }
 
   toggleActiveStatus(user: User): void {
-    // Note: Backend doesn't have separate toggle endpoint
-    // You'll need to update the full user record
     this.openEditUserModal(user);
   }
   get totalPages(): number {
@@ -322,7 +281,6 @@ export class UserList {
     return this.sortOrder === 'ASC' ? 'bi-arrow-up' : 'bi-arrow-down';
   }
 
-  // Format gender for display
   getGenderLabel(gender: number): string {
     switch (gender) {
       case 1:
@@ -338,7 +296,6 @@ export class UserList {
 
   getProfileImageUrl(imagePath: string | null): string {
     if (!imagePath) return 'assets/default-avatar.jpg';
-    // Backend serves from /uploads/Employee/
     return `http://localhost:5008${imagePath}`;
   }
 

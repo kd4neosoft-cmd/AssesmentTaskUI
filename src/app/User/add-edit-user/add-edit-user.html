@@ -7,15 +7,22 @@
 </div>
 
 <div class="modal-body">
-  <div *ngIf="submitMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-    <i class="bi bi-check-circle-fill me-2"></i>{{ submitMessage }}
-    <button type="button" class="btn-close" (click)="clearMessages()" aria-label="Close"></button>
+  @if(submitMessage){
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+      </svg>{{ submitMessage }}
+      <button type="button" class="btn-close" (click)="clearMessages()" aria-label="Close"></button>
+    </div>
+  }
+  @if(submitError){
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+      </svg>{{ submitError }}
+      <button type="button" class="btn-close" (click)="clearMessages()" aria-label="Close"></button>
   </div>
-
-  <div *ngIf="submitError" class="alert alert-danger alert-dismissible fade show" role="alert">
-    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ submitError }}
-    <button type="button" class="btn-close" (click)="clearMessages()" aria-label="Close"></button>
-  </div>
+  }
 
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
     <div class="row">
@@ -36,9 +43,11 @@
             f['firstName'].valid
           "
         />
-        <div *ngIf="isFieldInvalid('firstName')" class="invalid-feedback d-block">
+        @if(isFieldInvalid('firstName')){
+          <div class="invalid-feedback d-block">
           {{ getFieldError('firstName') }}
-        </div>
+          </div>
+        }
       </div>
 
       <div class="col-md-6 mb-3">
@@ -56,9 +65,11 @@
             f['lastName'].valid
           "
         />
-        <div *ngIf="isFieldInvalid('lastName')" class="invalid-feedback d-block">
-          {{ getFieldError('lastName') }}
-        </div>
+        @if(isFieldInvalid('lastName')){
+          <div class="invalid-feedback d-block">
+            {{ getFieldError('lastName') }}
+          </div>
+        }
       </div>
 
       <div class="col-md-6 mb-3">
@@ -78,9 +89,11 @@
             f['emailAddress'].valid
           "
         />
-        <div *ngIf="isFieldInvalid('emailAddress')" class="invalid-feedback d-block">
-          {{ getFieldError('emailAddress') }}
-        </div>
+        @if(isFieldInvalid('emailAddress')){
+          <div *ngIf="isFieldInvalid('emailAddress')" class="invalid-feedback d-block">
+            {{ getFieldError('emailAddress') }}
+          </div>
+        }
       </div>
 
       <div class="col-md-6 mb-3">
@@ -101,9 +114,12 @@
             f['mobileNumber'].valid
           "
         />
-        <div *ngIf="isFieldInvalid('mobileNumber')" class="invalid-feedback d-block">
-          {{ getFieldError('mobileNumber') }}
-        </div>
+        @if(isFieldInvalid('mobileNumber')){
+           <div class="invalid-feedback d-block">
+            {{ getFieldError('mobileNumber') }}
+          </div>
+        }
+       
       </div>
 
       <div class="col-md-6 mb-3">
@@ -125,9 +141,12 @@
             f['panNumber'].valid
           "
         />
-        <div *ngIf="isFieldInvalid('panNumber')" class="invalid-feedback d-block">
+        @if(isFieldInvalid('panNumber')){
+          <div class="invalid-feedback d-block">
           {{ getFieldError('panNumber') }}
         </div>
+        }
+        
       </div>
 
       <div class="col-md-6 mb-3">
@@ -148,33 +167,12 @@
             f['passportNumber'].valid
           "
         />
-        <div *ngIf="isFieldInvalid('passportNumber')" class="invalid-feedback d-block">
-          {{ getFieldError('passportNumber') }}
-        </div>
+        @if(isFieldInvalid('passportNumber')){
+          <div class="invalid-feedback d-block">
+            {{ getFieldError('passportNumber') }}
+          </div>
+        }
       </div>
-
-      <!-- <div class="col-md-6 mb-3">
-        <label for="dateOfBirth" class="form-label"
-          >Date of Birth <span class="text-danger">*</span></label
-        >
-        <input
-          type="date"
-          class="form-control"
-          id="dateOfBirth"
-          formControlName="dateOfBirth"
-          [max]="today"
-          [class.is-invalid]="isFieldInvalid('dateOfBirth')"
-          [class.is-valid]="
-            !isFieldInvalid('dateOfBirth') &&
-            (f['dateOfBirth'].dirty || f['dateOfBirth'].touched) &&
-            f['dateOfBirth'].valid
-          "
-        />
-        <div *ngIf="isFieldInvalid('dateOfBirth')" class="invalid-feedback d-block">
-          {{ getFieldError('dateOfBirth') }}
-        </div>
-      </div> -->
-
       <div class="col-md-6 mb-3">
         <label for="dateOfBirth" class="form-label"
           >Date of Birth <span class="text-danger">*</span></label
@@ -218,31 +216,12 @@
             </svg>
           </button>
         </div>
-        <div *ngIf="isFieldInvalid('dateOfBirth')" class="invalid-feedback d-block">
-          {{ getFieldError('dateOfBirth') }}
-        </div>
+        @if(isFieldInvalid('dateOfBirth')){
+          <div class="invalid-feedback d-block">
+            {{ getFieldError('dateOfBirth') }}
+          </div>
+        }
       </div>
-      <!-- <div class="col-md-6 mb-3">
-        <label for="dateOfJoinee" class="form-label">Date of Joining</label>
-        <input
-          type="date"
-          class="form-control"
-          id="dateOfJoinee"
-          formControlName="dateOfJoinee"
-          [max]="today"
-          [class.is-invalid]="isFieldInvalid('dateOfJoinee')"
-          [class.is-valid]="
-            !isFieldInvalid('dateOfJoinee') &&
-            (f['dateOfJoinee'].dirty || f['dateOfJoinee'].touched) &&
-            f['dateOfJoinee'].valid
-          "
-        />
-        <div *ngIf="isFieldInvalid('dateOfJoinee')" class="invalid-feedback d-block">
-          {{ getFieldError('dateOfJoinee') }}
-        </div>
-      </div> -->
-
-      <!-- Date of Joining -->
       <div class="col-md-6 mb-3">
         <label for="dateOfJoinee" class="form-label">Date of Joining</label>
 
@@ -285,105 +264,13 @@
             </svg>
           </button>
         </div>
-
-        <div *ngIf="isFieldInvalid('dateOfJoinee')" class="invalid-feedback d-block">
-          {{ getFieldError('dateOfJoinee') }}
-        </div>
+        @if(isFieldInvalid('dateOfJoinee')){
+          <div class="invalid-feedback d-block">
+            {{ getFieldError('dateOfJoinee') }}
+          </div>
+        }
+        
       </div>
-      <!-- <div class="col-md-6 mb-3">
-        <label for="countryId" class="form-label">Country <span class="text-danger">*</span></label>
-        <ng-select
-          id="countryId"
-          [items]="countries"
-          formControlName="countryId"
-          bindLabel="Name"
-          bindValue="Row_Id"
-          placeholder="Select Country"
-          [searchable]="true"
-          [clearable]="true"
-          [markFirst]="true"
-          (change)="onCountryChange()"
-          [class.is-invalid]="isFieldInvalid('countryId')"
-          [class.is-valid]="
-            !isFieldInvalid('countryId') &&
-            (f['countryId'].dirty || f['countryId'].touched) &&
-            f['countryId'].valid
-          "
-        >
-        </ng-select>
-        <div *ngIf="isFieldInvalid('countryId')" class="invalid-feedback d-block">
-          {{ getFieldError('countryId') }}
-        </div>
-      </div>
-
-      <div class="col-md-6 mb-3">
-        <label for="stateId" class="form-label">State <span class="text-danger">*</span></label>
-        <ng-select
-          id="stateId"
-          [items]="states"
-          formControlName="stateId"
-          bindLabel="Name"
-          bindValue="Row_Id"
-          placeholder="Select State"
-          [searchable]="true"
-          [clearable]="true"
-          [markFirst]="true"
-          [disabled]="!f['countryId'].value"
-          (change)="onStateChange()"
-          [class.is-invalid]="isFieldInvalid('stateId') || shouldShowStateError()"
-          [class.is-valid]="
-            !isFieldInvalid('stateId') &&
-            !shouldShowStateError() &&
-            (f['stateId'].dirty || f['stateId'].touched) &&
-            f['stateId'].valid
-          "
-        >
-        </ng-select>
-        <div *ngIf="shouldShowStateError()" class="invalid-feedback d-block">
-          {{ getStateErrorMessage() }}
-        </div>
-        <div
-          *ngIf="isFieldInvalid('stateId') && !shouldShowStateError()"
-          class="invalid-feedback d-block"
-        >
-          {{ getFieldError('stateId') }}
-        </div>
-      </div>
-
-      <div class="col-md-6 mb-3">
-        <label for="cityId" class="form-label">City <span class="text-danger">*</span></label>
-        <ng-select
-          id="cityId"
-          [items]="cities"
-          formControlName="cityId"
-          bindLabel="Name"
-          bindValue="Row_Id"
-          placeholder="Select City"
-          [searchable]="true"
-          [clearable]="true"
-          [markFirst]="true"
-          [disabled]="!f['stateId'].value"
-          [class.is-invalid]="isFieldInvalid('cityId') || shouldShowCityError()"
-          [class.is-valid]="
-            !isFieldInvalid('cityId') &&
-            !shouldShowCityError() &&
-            (f['cityId'].dirty || f['cityId'].touched) &&
-            f['cityId'].valid
-          "
-        >
-        </ng-select>
-        <div *ngIf="shouldShowCityError()" class="invalid-feedback d-block">
-          {{ getCityErrorMessage() }}
-        </div>
-        <div
-          *ngIf="isFieldInvalid('cityId') && !shouldShowCityError()"
-          class="invalid-feedback d-block"
-        >
-          {{ getFieldError('cityId') }}
-        </div>
-      </div> -->
-
-      <!-- Country -->
       <div class="col-md-6 mb-3">
         <label for="countryId" class="form-label">Country <span class="text-danger">*</span></label>
         <ng-select
@@ -404,12 +291,13 @@
           "
         >
         </ng-select>
-        <div *ngIf="isFieldInvalid('countryId')" class="invalid-feedback d-block">
-          {{ getFieldError('countryId') }}
-        </div>
+        @if(isFieldInvalid('countryId')){
+          <div class="invalid-feedback d-block">
+            {{ getFieldError('countryId') }}
+          </div>
+        }
       </div>
 
-      <!-- State -->
       <div class="col-md-6 mb-3">
         <label for="stateId" class="form-label">State <span class="text-danger">*</span></label>
         <ng-select
@@ -432,18 +320,18 @@
           "
         >
         </ng-select>
-        <div *ngIf="shouldShowStateError()" class="invalid-feedback d-block">
-          {{ getStateErrorMessage() }}
-        </div>
-        <div
-          *ngIf="isFieldInvalid('stateId') && !shouldShowStateError()"
-          class="invalid-feedback d-block"
-        >
-          {{ getFieldError('stateId') }}
-        </div>
+        @if(shouldShowStateError()){
+          <div class="invalid-feedback d-block">
+            {{ getStateErrorMessage() }}
+          </div>
+        }
+        @if(isFieldInvalid('stateId') && !shouldShowStateError()){
+          <div class="invalid-feedback d-block">
+            {{ getFieldError('stateId') }}
+          </div>
+        }
+        
       </div>
-
-      <!-- City -->
       <div class="col-md-6 mb-3">
         <label for="cityId" class="form-label">City <span class="text-danger">*</span></label>
         <ng-select
@@ -465,22 +353,21 @@
           "
         >
         </ng-select>
-        <div *ngIf="shouldShowCityError()" class="invalid-feedback d-block">
-          {{ getCityErrorMessage() }}
-        </div>
-        <div
-          *ngIf="isFieldInvalid('cityId') && !shouldShowCityError()"
-          class="invalid-feedback d-block"
-        >
-          {{ getFieldError('cityId') }}
-        </div>
+        @if(shouldShowCityError()){
+          <div class="invalid-feedback d-block">
+            {{ getCityErrorMessage() }}
+          </div>
+        }
+        @if(isFieldInvalid('cityId') && !shouldShowCityError()){
+          <div class="invalid-feedback d-block">
+            {{ getFieldError('cityId') }}
+          </div>
+        }
       </div>
       <div class="col-md-6 mb-3">
         <label for="profileImage" class="form-label">Profile Picture</label>
-        <div
-          *ngIf="isEditMode && existingProfileImage && !selectedFile && !imagePreview"
-          class="mb-2"
-        >
+        @if(isEditMode && existingProfileImage && !selectedFile && !imagePreview){
+          <div class="mb-2">
           <img
             [src]="getProfileImageUrl(existingProfileImage)"
             alt="Current Profile"
@@ -491,12 +378,14 @@
             (error)="onImageError($event)"
           />
           <p class="text-muted small mt-1">
-            <i class="bi bi-check-circle text-success me-1"></i>Current image
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </svg>Current image
           </p>
         </div>
-
-        <!-- Show preview of newly selected file -->
-        <div *ngIf="imagePreview" class="mb-2">
+        }
+        @if(imagePreview){
+          <div class="mb-2">
           <img
             [src]="imagePreview"
             alt="Preview"
@@ -506,18 +395,22 @@
             style="object-fit: cover"
           />
           <p class="text-muted small mt-1">
-            <i class="bi bi-clock-history me-1"></i>New image (not saved yet)
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+            </svg>New image (not saved yet)
           </p>
           <button
             type="button"
             class="btn btn-sm btn-outline-danger mt-1"
             (click)="removeSelectedFile()"
           >
-            <i class="bi bi-trash me-1"></i>Remove
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+              <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+            </svg>Remove
           </button>
         </div>
+        }
 
-        <!-- File input group -->
         <div class="input-group">
           <input
             type="text"
@@ -529,7 +422,9 @@
             [class.is-invalid]="!!fileError"
           />
           <label class="btn btn-outline-secondary mb-0" for="fileInput">
-            <i class="bi bi-upload me-1"></i> Upload
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-arrow-up-fill" viewBox="0 0 16 16">
+              <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M7.5 6.707 6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0z"/>
+            </svg>Upload
           </label>
           <input
             type="file"
@@ -539,22 +434,24 @@
             accept="image/jpeg, image/png"
           />
         </div>
-
         <small class="form-text text-muted">
-          <i class="bi bi-info-circle me-1"></i>Accepted: JPG, PNG (Max 200 KB)
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+          </svg>Accepted: JPG, PNG (Max 200 KB)
         </small>
-
-        <!-- File validation error -->
-        <div *ngIf="fileError" class="invalid-feedback d-block">
-          <i class="bi bi-exclamation-triangle me-1"></i>{{ fileError }}
+        @if(fileError){
+          <div class="invalid-feedback d-block">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+          </svg>{{ fileError }}
         </div>
-
-        <!-- General submit error related to image -->
-        <div *ngIf="submitError && submitError.includes('image')" class="invalid-feedback d-block">
-          {{ submitError }}
-        </div>
+        }
+        @if(submitError && submitError.includes('image')){
+          <div class="invalid-feedback d-block">
+            {{ submitError }}
+          </div>  
+        }
       </div>
-
       <div class="col-md-6 mb-3">
         <label class="form-label">Gender <span class="text-danger">*</span></label>
         <div class="d-flex gap-4">
@@ -592,9 +489,11 @@
             <label class="form-check-label" for="genderOther">Other</label>
           </div>
         </div>
-        <div *ngIf="isFieldInvalid('gender')" class="invalid-feedback d-block">
-          {{ getFieldError('gender') }}
-        </div>
+        @if(isFieldInvalid('gender')){
+          <div class="invalid-feedback d-block">
+            {{ getFieldError('gender') }}
+          </div>
+        }
       </div>
 
       <div class="col-md-12 mb-3">
@@ -612,11 +511,17 @@
 
     <div class="modal-footer justify-content-end mt-3">
       <button type="button" class="btn btn-secondary" (click)="onCancel()">
-        <i class="bi bi-x-circle me-1"></i> Cancel
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+        </svg> Cancel
       </button>
       <button type="submit" class="btn btn-success" [disabled]="loading">
-        <i class="bi bi-check-circle me-1"></i>
-        <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg>
+        @if(loading){
+          <span class="spinner-border spinner-border-sm me-1"></span>
+        }
         {{ loading ? 'Saving...' : 'Save' }}
       </button>
     </div>

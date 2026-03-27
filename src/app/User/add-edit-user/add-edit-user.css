@@ -185,7 +185,6 @@ img.rounded-circle {
   border: 2px solid #dee2e6;
 }
 
-/* ng-select custom styling */
 ng-select.is-invalid ::ng-deep .ng-select-container {
   border-color: #dc3545 !important;
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
@@ -231,7 +230,6 @@ ng-select ::ng-deep .ng-dropdown-panel .ng-option-marked {
   color: #495057;
 }
 
-/* Profile image preview styling */
 img.rounded-circle {
   object-fit: cover;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -242,19 +240,16 @@ img.rounded-circle:hover {
   transform: scale(1.05);
 }
 
-/* Remove button styling */
 .btn-outline-danger {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
 }
 
-/* File input focus */
 .form-control[readonly]:focus {
   background-color: white;
   cursor: default;
 }
 
-/* ngbDatepicker custom styling */
 ngb-datepicker ::ng-deep .ngb-dp-day {
   cursor: pointer;
 }
@@ -280,7 +275,6 @@ ngb-datepicker ::ng-deep .ngb-dp-day.disabled {
   cursor: not-allowed;
 }
 
-/* Input group with datepicker */
 .input-group .form-control[readonly] {
   background-color: white;
   cursor: pointer;

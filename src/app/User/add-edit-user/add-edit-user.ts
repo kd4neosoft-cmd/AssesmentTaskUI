@@ -286,13 +286,12 @@ export class AddEditUser {
         this.userForm.get('stateId')?.enable();
         this.userForm.patchValue({ stateId: user.StateId });
 
-        // ✅ Fix: Load cities BEFORE patching city value
         if (user.StateId) {
           this.loadCitiesByState(user.StateId);
 
           setTimeout(() => {
             this.userForm.get('cityId')?.enable();
-            this.userForm.patchValue({ cityId: user.CityId }); // ✅ Patch AFTER cities load
+            this.userForm.patchValue({ cityId: user.CityId });
           }, 300);
         }
       }, 300);
@@ -300,14 +299,9 @@ export class AddEditUser {
     console.log(this.userForm.get('cityId').getRawValue());
   }
 
-  // Convert ISO datetime string (yyyy-mm-ddTHH:MM:SS) to NgbDateStruct
   private parseDateToNgbDateStruct(dateString: string | null): NgbDateStruct | null {
     if (!dateString) return null;
-
-    // ✅ Split by 'T' first to get only the date part
     const datePart = dateString.split('T')[0];
-
-    // ✅ Now split by '-' to get year, month, day
     const [year, month, day] = datePart.split('-').map(Number);
 
     return {
@@ -335,7 +329,6 @@ export class AddEditUser {
     return `${date.year}-${month}-${day}`;
   }
 
-  // ✅ Convert ISO string to NgbDateStruct
   private parseDateFromBackend(dateString: string | null | undefined): NgbDateStruct | null {
     if (!dateString) return null;
     const [year, month, day] = dateString.split('-').map(Number);
@@ -344,11 +337,8 @@ export class AddEditUser {
 
   onDateOfJoineeChange(date: NgbDateStruct | null): void {
     if (date) {
-      // Update form control with ISO string for backend
       const isoDate = this.formatDateForBackend(date);
       this.userForm.patchValue({ dateOfJoinee: isoDate });
-
-      // Validate: must be in the past
       const selectedDate = new Date(date.year, date.month - 1, date.day);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -362,8 +352,6 @@ export class AddEditUser {
           this.userForm.get('dateOfJoinee')?.setErrors(Object.keys(errors).length ? errors : null);
         }
       }
-
-      // Mark as touched for validation
       this.userForm.get('dateOfJoinee')?.markAsTouched();
     }
   }
@@ -372,8 +360,6 @@ export class AddEditUser {
     if (date) {
       const isoDate = this.formatDateForBackend(date);
       this.userForm.patchValue({ dateOfBirth: isoDate });
-
-      // Validate: must be in the past
       const selectedDate = new Date(date.year, date.month - 1, date.day);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -429,34 +415,24 @@ export class AddEditUser {
     if (!file) {
       return;
     }
-
-    // Clear previous errors
     this.fileError = '';
     this.submitError = null;
-
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png'];
     if (!allowedTypes.includes(file.type)) {
       this.fileError = 'Please select a valid image file (JPG or PNG only)';
       this.clearFileInput();
       return;
     }
-
-    // Validate file size (max 200 KB)
-    const maxSize = 200 * 1024; // 200 KB in bytes
+    const maxSize = 200 * 1024;
     if (file.size > maxSize) {
       this.fileError = `File size exceeds 200 KB (current: ${(file.size / 1024).toFixed(2)} KB)`;
       this.clearFileInput();
       return;
     }
-
-    // File is valid - set it and create preview
     this.selectedFile = file;
     this.userForm.patchValue({
       profileImage: file.name,
     });
-
-    // Create image preview
     this.createImagePreview(file);
   }
 
@@ -473,8 +449,6 @@ export class AddEditUser {
     this.imagePreview = null;
     this.fileError = '';
     this.clearFileInput();
-
-    // Keep existing image if in edit mode
     if (this.isEditMode && this.existingProfileImage) {
       this.userForm.patchValue({
         profileImage: this.existingProfileImage,
@@ -495,7 +469,7 @@ export class AddEditUser {
 
   onImageError(event: any): void {
     const img = event.target as HTMLImageElement;
-    img.src = 'assets/default-avatar.jpg'; // Fallback image
+    img.src = 'assets/default-avatar.jpg';
     console.warn('Profile image failed to load:', this.existingProfileImage);
   }
 
@@ -503,8 +477,6 @@ export class AddEditUser {
     if (!imagePath) {
       return 'assets/default-avatar.jpg';
     }
-
-    // Ensure path starts with /
     const path = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
     return `http://localhost:5008${path}`;
   }
@@ -665,12 +637,8 @@ export class AddEditUser {
     this.backendErrors = {};
     this.fileError = '';
     this.submitError = null;
-
-    // Create FormData for file upload
     const formData = new FormData();
     const formValue = this.userForm.value;
-
-    // Append all fields (PascalCase to match backend)
     formData.append('FirstName', formValue.firstName);
     formData.append('LastName', formValue.lastName || '');
     formData.append('EmailAddress', formValue.emailAddress);
@@ -688,18 +656,12 @@ export class AddEditUser {
     formData.append('CountryId', formValue.countryId);
     formData.append('StateId', formValue.stateId);
     formData.append('CityId', formValue.cityId);
-
-    // Append file if selected
     if (this.selectedFile) {
       formData.append('profileImage', this.selectedFile, this.selectedFile.name);
     }
-
-    // Add Row_Id for update
     if (this.isEditMode && this.userId) {
       formData.append('Row_Id', this.userId.toString());
     }
-
-    // Make API call
     const request = this.isEditMode
       ? this.userService.updateUser(this.userId!, formData)
       : this.userService.addUser(formData);
